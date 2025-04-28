@@ -1,0 +1,49 @@
+$nEvals = [5000]
+
+ea.experiment(
+  runs = (randomGenerator = (seed = [1:1:10]) * [m.defaultRG()]) *
+    (solver = (nEval = $nEvals) * [
+      ea.s.nsga2(
+        name = "nsga2";
+        nPop = 100;
+        representation = ea.r.cfgTree(grammar = ea.grammar.fromProblem(problem = tesi.problem.patternInferenceProblem()));
+        mapper = ea.m.grammarTreeBP(problem = tesi.problem.patternInferenceProblem())
+      )
+    ]) * [
+    ea.run(problem = tesi.problem.patternInferenceProblem())
+  ];
+  listeners = [
+    ea.l.console(
+      functions = [
+        ea.f.size(of = ea.f.genotype(of = ea.f.best()); format = "%3d");
+        f.max(of = f.each(of = ea.f.all(); mapF = f.mapValue(key = F1sequences; of = ea.f.quality())); format = "%5.3f");
+        f.max(of = f.each(of = ea.f.all(); mapF = f.mapValue(key = F1events; of = ea.f.quality())); format = "%5.3f");
+        f.mapValue(key = F1sequences; of = ea.f.quality(of = ea.f.best()); format = "%5.3f");
+        f.mapValue(key = F1events; of = ea.f.quality(of = ea.f.best()); format = "%5.3f")
+      ]
+    );
+    ea.l.bestCsv(
+      path = "./RESULTS/{name}/{startTime}/cep-best.csv";
+      functions = [
+        ea.f.size(of = ea.f.genotype(of = ea.f.best()));
+        f.max(of = f.each(of = ea.f.all(); mapF = f.mapValue(key = F1sequences; of = ea.f.quality())); format = "%5.3f");
+        f.max(of = f.each(of = ea.f.all(); mapF = f.mapValue(key = F1events; of = ea.f.quality())); format = "%5.3f");
+        f.mapValue(key = F1sequences; of = ea.f.quality(of = ea.f.best()); format = "%5.3f");
+        f.mapValue(key = F1events; of = ea.f.quality(of = ea.f.best()); format = "%5.3f");
+        ea.f.genotype(of = ea.f.best())
+      ]
+    );
+    ea.l.savePlotForExp(
+      path = "./RESULTS/{name}/{startTime}/bestF1Sequences";
+      plot = ea.plot.multi.quality(q=f.mapValue(key = F1sequences);x=ea.f.nOfEvals())
+    );
+    ea.l.savePlotForExp(
+      path = "./RESULTS/{name}/{startTime}/bestF1Events";
+      plot = ea.plot.multi.quality(q=f.mapValue(key = F1events);x=ea.f.nOfEvals())
+    );
+    ea.l.savePlotForExp(
+      path = "./RESULTS/{name}/{startTime}/bestSize";
+      plot = ea.plot.multi.xyExp(x=ea.f.nOfEvals(); y=ea.f.size(of = ea.f.genotype(of = ea.f.best())))
+    )
+  ]
+)

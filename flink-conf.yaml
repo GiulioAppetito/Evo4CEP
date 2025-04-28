@@ -1,0 +1,11 @@
+execution.checkpointing.interval: 0
+rest.port: 8081
+blob.server.port: 6124
+taskmanager.memory.process.size: 4096m
+blob.expiration.time: 600
+blob.service.cleanup.interval: 120
+parallelism.default: 2
+jobmanager.rpc.address: jobmanager
+taskmanager.numberOfTaskSlots: 16
+jobmanager.memory.process.size: 2048m
+query.server.port: 6125

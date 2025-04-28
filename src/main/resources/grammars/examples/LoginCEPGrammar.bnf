@@ -1,0 +1,15 @@
+<pattern> ::= <events> <withinClause> | <events>
+<withinClause> ::= <iNum>
+<events> ::= <event> | <event> <eConcat> <events>
+<event> ::= <identifier> <conditions> <quantifier>
+<conditions> ::= <condition> | <condition> <cConcat> <conditions>
+<condition> ::= <var> <op> <boolean>
+<eConcat> ::= next | followedBy | followedByAny
+<identifier> ::= loginEvent1 | loginEvent2 | loginEvent3 | loginEvent4 | loginEvent5
+<cConcat> ::= and | or
+<op> ::= equal | notEqual
+<var> ::= successful_login
+<boolean> ::= true | false
+<quantifier> ::= oneOrMore | optional | <iNum>
+<iNum> ::= <digit> | <iNum> <digit>
+<digit> ::= 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
