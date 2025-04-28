@@ -130,14 +130,6 @@ ea.experiment(
 
 ---
 
-## 📖 Citing This Work
-
-> (DOI to be added after Zenodo upload.)
-
-Once archived on [Zenodo](https://zenodo.org/), please cite this work using the provided DOI.
-
----
-
 ## 📚 References
 
 - [Apache Flink](https://flink.apache.org/)
