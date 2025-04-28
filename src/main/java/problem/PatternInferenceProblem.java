@@ -54,9 +54,7 @@ public class PatternInferenceProblem implements GrammarBasedProblem<String, Patt
         targetRemoteEnvironment.getCheckpointConfig().disableCheckpointing();
         config.registerKryoType(java.util.HashMap.class);
         config.registerKryoType(BaseEvent.class);
-        //System.out.println(ColoredText.YELLOW + "[PatternInferenceProblem] Creating target datastream." + ColoredText.RESET);
         DataStream<BaseEvent> eventStream = DataStreamFactory.createDataStream(targetRemoteEnvironment, csvFilePath);
-        //System.out.println(ColoredText.YELLOW + "[PatternInferenceProblem] Creating target sequences." + ColoredText.RESET);
         TargetSequencesGenerator.saveMatchesToFile(
                 TargetSequencesGenerator.createTargetPatterns(),
                 eventStream,
@@ -65,7 +63,6 @@ public class PatternInferenceProblem implements GrammarBasedProblem<String, Patt
         );
 
         // Load target sequences
-        //System.out.println(ColoredText.YELLOW + "[PatternInferenceProblem] Reading target sequences from file." + ColoredText.RESET);
         this.targetSequences = TargetSequenceReader.readTargetSequencesFromFile(targetDatasetPath);
 
         // Generate grammar
@@ -73,7 +70,6 @@ public class PatternInferenceProblem implements GrammarBasedProblem<String, Patt
         String type = getRequiredProperty(myConfig, "grammarType");
         GrammarTypes grammarType = GrammarTypes.valueOf(type);
 
-        //System.out.println(ColoredText.YELLOW + "[PatternInferenceProblem] Creating grammar." + ColoredText.RESET);
         GrammarGenerator.generateGrammar(csvFilePath, grammarFilePath, grammarType, numEvents);
         this.grammar = loadGrammar(grammarFilePath);
     }
@@ -94,11 +90,9 @@ public class PatternInferenceProblem implements GrammarBasedProblem<String, Patt
                 config.registerKryoType(BaseEvent.class);
 
                 // Create datastream
-                //System.out.println(ColoredText.YELLOW + "[PatternInferenceProblem] Creating datastream." + ColoredText.RESET);
                 DataStream<BaseEvent> eventStream = DataStreamFactory.createDataStream(remoteEnvironment, csvFilePath);
 
                 // Compute F1-Score on sequences
-                //System.out.println(ColoredText.YELLOW + "[PatternInferenceProblem] Computing F1 Sequences." + ColoredText.RESET);
                 FitnessCalculator fitnessCalculator = new FitnessCalculator(targetSequences);
                 double fitnessValue1 = fitnessCalculator.calculateFitness(
                         FitnessFunctionEnum.FBETA,
@@ -110,7 +104,6 @@ public class PatternInferenceProblem implements GrammarBasedProblem<String, Patt
                 );
 
                 // Compute F1-Score on events
-                //System.out.println(ColoredText.YELLOW + "[PatternInferenceProblem] Computing F1 Events." + ColoredText.RESET);
                 double fitnessValue2 = fitnessCalculator.calculateFitness(
                         FitnessFunctionEnum.BINARYEVENTS,
                         remoteEnvironment,
@@ -120,7 +113,6 @@ public class PatternInferenceProblem implements GrammarBasedProblem<String, Patt
                         patternRepresentation
                 );
 
-                //System.out.println(ColoredText.YELLOW + "[PatternInferenceProblem] Finished computing F1 scores." + ColoredText.RESET);
 
                 // Create map of fitness functions
                 SequencedMap<String, Double> qualityMap = new LinkedHashMap<>();
