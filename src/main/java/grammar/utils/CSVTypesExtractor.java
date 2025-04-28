@@ -22,13 +22,12 @@ public class CSVTypesExtractor {
 
             for (CSVRecord record : csvParser) {
                 for (String column : record.toMap().keySet()) {
-                    // Filtra gli attributi in base a allowedAttributes
                     if (allowedAttributes != null && !allowedAttributes.isEmpty() && !allowedAttributes.contains(column)) {
-                        continue; // Salta gli attributi non consentiti
+                        continue; 
                     }
 
                     if (column.equalsIgnoreCase("timestamp")) {
-                        continue; // Salta il timestamp
+                        continue;
                     }
                     String value = record.get(column);
                     DataTypesEnum currentType = inferType(value);
@@ -52,7 +51,7 @@ public class CSVTypesExtractor {
             for (CSVRecord record : csvParser) {
                 for (String column : record.toMap().keySet()) {
                     if (!columnTypes.containsKey(column)) {
-                        continue; // Salta colonne non presenti in columnTypes (già filtrate da allowedAttributes)
+                        continue; 
                     }
                     String value = record.get(column);
                     if (columnTypes.get(column) == DataTypesEnum.STRING) {
@@ -80,14 +79,13 @@ public class CSVTypesExtractor {
     
             for (CSVRecord record : csvParser) {
                 for (String column : columnTypes.keySet()) {
-                    if (columnTypes.get(column) == DataTypesEnum.INT) { // Solo colonne INT
+                    if (columnTypes.get(column) == DataTypesEnum.INT) { 
                         String value = record.get(column);
                         try {
                             int num = Integer.parseInt(value);
                             minInt = Math.min(minInt, num);
                             maxInt = Math.max(maxInt, num);
                         } catch (NumberFormatException e) {
-                            // Ignora valori non validi
                         }
                     }
                 }
@@ -95,7 +93,6 @@ public class CSVTypesExtractor {
         }
     
         if (minInt == Integer.MAX_VALUE || maxInt == Integer.MIN_VALUE) {
-            // Nessun valore trovato, usa un range predefinito
             return new int[]{1, 100};
         }
     
