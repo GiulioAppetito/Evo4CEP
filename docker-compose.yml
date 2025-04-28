@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 version: '3.8'
 
 services:
@@ -53,3 +54,60 @@ services:
 networks:
   flink-network:
     driver: bridge
+=======
+version: '3.8'
+
+services:
+  jobmanager:
+    image: flink:1.20.0-java17
+    container_name: flink-jobmanager
+    hostname: jobmanager
+    ports:
+      - "8081:8081"
+      - "6123:6123"
+    environment:
+      - JOB_MANAGER_RPC_ADDRESS=jobmanager
+      - FLINK_ENV_JAVA_OPTS=--add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.base/java.lang=ALL-UNNAMED
+    volumes:
+      - ./flink-conf.yaml:/opt/flink/conf/flink-conf.yaml
+      - ./log4j.properties:/opt/flink/conf/log4j.properties
+    command: jobmanager
+    networks:
+      - flink-network
+
+  taskmanager1:
+    image: flink:1.20.0-java17
+    container_name: flink-taskmanager-1
+    hostname: taskmanager1
+    environment:
+      - JOB_MANAGER_RPC_ADDRESS=jobmanager
+      - FLINK_ENV_JAVA_OPTS=--add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.base/java.lang=ALL-UNNAMED
+    volumes:
+      - ./flink-conf.yaml:/opt/flink/conf/flink-conf.yaml
+      - ./log4j.properties:/opt/flink/conf/log4j.properties
+    command: taskmanager
+    networks:
+      - flink-network
+
+  app:
+    image: eclipse-temurin:21-jre
+    container_name: flink-app
+    hostname: flink-app
+    depends_on:
+      - jobmanager
+    environment:
+      CONFIG_PATH: /workspace/src/main/resources/config.properties
+    working_dir: /workspace
+    entrypoint: ["tail", "-f", "/dev/null"]
+    volumes:
+      - .:/workspace
+      - ./RESULTS:/workspace/RESULTS
+      - ./src/main/resources:/workspace/src/main/resources
+      - ./src/main/resources/datasets/target:/workspace/src/main/resources/datasets/target
+    networks:
+      - flink-network
+
+networks:
+  flink-network:
+    driver: bridge
+>>>>>>> 6a6f16a09c919b81d1394e4e9d25ebec70e25f47
