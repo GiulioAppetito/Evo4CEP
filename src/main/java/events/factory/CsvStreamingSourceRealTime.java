@@ -15,7 +15,7 @@ import java.util.*;
 
 public class CsvStreamingSourceRealTime implements SourceFunction<BaseEvent> {
     private final String csvFilePath;
-    private final double speedupFactor; // 1.0 = reale, 2.0 = 2x più veloce, 0.5 = più lento
+    private final double speedupFactor; 
     private volatile boolean running = true;
 
     public CsvStreamingSourceRealTime(String csvFilePath, double speedupFactor) {
@@ -38,8 +38,8 @@ public class CsvStreamingSourceRealTime implements SourceFunction<BaseEvent> {
             while (running && iterator.hasNext()) {
                 CSVRecord record = iterator.next();
                 try {
-                    long rawTimestamp = Long.parseLong(record.get("timestamp")); // nanosecondi
-                    long timestamp = rawTimestamp / 1_000_000; // millisecondi per Flink
+                    long rawTimestamp = Long.parseLong(record.get("timestamp")); 
+                    long timestamp = rawTimestamp / 1_000_000; 
                     GenericEvent event = new GenericEvent(timestamp);
 
                     for (Map.Entry<String, DataTypesEnum> entry : columnTypes.entrySet()) {
@@ -55,7 +55,6 @@ public class CsvStreamingSourceRealTime implements SourceFunction<BaseEvent> {
                         }
                     }
 
-                    // Calcola il delay basato su timestamp nano, ma convertito in millis
                     if (prevRawTimestamp > 0) {
                         long delayNanos = rawTimestamp - prevRawTimestamp;
                         long delayMillis = delayNanos / 1_000_000;
