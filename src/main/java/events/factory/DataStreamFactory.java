@@ -22,12 +22,10 @@ public class DataStreamFactory {
     public static DataStream<BaseEvent> createDataStream(StreamExecutionEnvironment env, String csvFilePath) {
         env.getConfig().setAutoWatermarkInterval(500);
     
-        // Simula ritmi reali basati su timestamp CSV
         return env
-            .addSource(new CsvStreamingSourceRealTime(csvFilePath, 1000000000.0)) // 10x più veloce
+            .addSource(new CsvStreamingSourceRealTime(csvFilePath, 1000000000.0)) 
             .assignTimestampsAndWatermarks(new LoggingWatermarkStrategy());
     }
-    // Classe per loggare i Watermark generati
     private static class LoggingWatermarkStrategy implements WatermarkStrategy<BaseEvent> {
         private static final Logger LOG = LoggerFactory.getLogger(LoggingWatermarkStrategy.class);
         @Override
