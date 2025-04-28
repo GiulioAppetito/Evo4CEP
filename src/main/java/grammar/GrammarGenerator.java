@@ -12,7 +12,6 @@ import static utils.Utils.loadConfig;
 public class GrammarGenerator {
 
     public static void generateGrammar(String csvFilePath, String grammarFilePath, GrammarTypes grammarType, long numEvents) throws Exception {
-        // Carica la configurazione
         String configPath = System.getenv("CONFIG_PATH");
         Properties myConfig = loadConfig(configPath);
         String conditionAttributesConfig = myConfig.getProperty("conditionAttributes", "").trim();
@@ -22,7 +21,6 @@ public class GrammarGenerator {
         }
         System.out.println("[GrammarGenerator] Allowed attributes: " + allowedAttributes);
 
-        // Filtra gli attributi usando allowedAttributes
         Map<String, DataTypesEnum> columnTypes = CSVTypesExtractor.getColumnTypesFromCSV(csvFilePath, allowedAttributes);
         List<DataTypesEnum> uniqueColumnTypes = columnTypes.values().stream().toList();
         Map<String, Set<String>> uniqueStringValues = CSVTypesExtractor.inferUniqueStringValues(csvFilePath, columnTypes);
