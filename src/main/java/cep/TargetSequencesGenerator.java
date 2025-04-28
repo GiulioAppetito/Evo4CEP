@@ -86,7 +86,7 @@ public class TargetSequencesGenerator {
                     return (Double) eventMap.get("co") > 0.0045 &&
                         (Double) eventMap.get("smoke") > 0.02;
                 }
-            }).times(2) // almeno due eventi consecutivi di inquinamento alto
+            }).times(2) 
             .followedBy("temp_rise")
             .where(new SimpleCondition<>() {
                 @Override
@@ -95,7 +95,7 @@ public class TargetSequencesGenerator {
                     return (Double) eventMap.get("temp") > 25.0;
                 }
             })
-            .within(Duration.ofSeconds(targetWithinWindowSeconds)); // tutto entro 2 minuti
+            .within(Duration.ofSeconds(targetWithinWindowSeconds)); 
 
             
         Pattern<BaseEvent, ?> loginPattern1 = Pattern.<BaseEvent>begin("failed_logins", skipStrategy)
@@ -105,18 +105,16 @@ public class TargetSequencesGenerator {
                         Map<String, Object> eventMap = event.toMap();
                         Object successful_login = eventMap.get("successful_login");
 
-                        // Eventi con successful_login = false
                         return Boolean.FALSE.equals(successful_login);
                     }
-                }).oneOrMore() // Uno o più eventi di login falliti
-                .next("successful_login") // Seguito da un evento di login corretto
+                }).oneOrMore() 
+                .next("successful_login") 
                 .where(new SimpleCondition<>() {
                     @Override
                     public boolean filter(BaseEvent event) {
                         Map<String, Object> eventMap = event.toMap();
                         Object successful_login = eventMap.get("successful_login");
 
-                        // Evento con successful_login = true
                         return Boolean.TRUE.equals(successful_login);
                     }
                 }).within(Duration.ofSeconds(targetWithinWindowSeconds));
@@ -127,7 +125,7 @@ public class TargetSequencesGenerator {
                     public boolean filter(BaseEvent event) {
                         Map<String, Object> eventMap = event.toMap();
                         double temperature = (double) eventMap.get("temperature");
-                        return temperature > 30.0; // Evento con temperatura elevata
+                        return temperature > 30.0; 
                     }
                 })
                 .times((int)targetFromTimes, (int)targetToTimes);
