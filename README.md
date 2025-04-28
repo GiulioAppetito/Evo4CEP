@@ -1,9 +1,9 @@
 
-# Evo4CEP — Evolutionary Optimization for Complex Event Processing Patterns
+# EvoCo4CEP — Evolutionary Optimization for Complex Event Processing Patterns
 
 ## ✨ About
 
-**Evo4CEP** is a framework for the automated discovery of Complex Event Processing (CEP) patterns in event streams using evolutionary algorithms.  
+**EvoCo4CEP** is a framework for the automated discovery of Complex Event Processing (CEP) patterns in event streams using evolutionary algorithms.  
 It combines **Apache Flink CEP** for real-time event processing and **JGEA** (Java Genetic Evolutionary Algorithm) for grammar-based pattern inference.
 
 ---
@@ -147,8 +147,3 @@ Once archived on [Zenodo](https://zenodo.org/), please cite this work using the 
 
 ---
 
-## 🙋‍♂️ Author
-
-**Giulio Appetito**  
-Master's Thesis — Università degli Studi di Roma "Tor Vergata"  
-Supervisors: Prof.ssa Valeria Cardellini, Prof. Vincenzo Gulisano
