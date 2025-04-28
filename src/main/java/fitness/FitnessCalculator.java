@@ -125,13 +125,6 @@ public class FitnessCalculator {
         saveFitnessData(jobId, fitnessFunction, fitnessScore, durationSeconds, foundMatches, completedInTime);
         long time_e = System.nanoTime();
 
-        //System.out.println();
-        //System.out.println(ColoredText.CYAN + "[FitnessCalculator] Total time for individual evaluation: "+(time_e - time_a) / 1_000_000_000.0+"s");
-        //System.out.println(ColoredText.CYAN + "[FitnessCalculator] Time to perform event matching: "+(time_b - time_a) / 1_000_000_000.0+"s");
-        //System.out.println(ColoredText.CYAN + "[FitnessCalculator] Time to collect detected sequences: "+(time_c - time_b) / 1_000_000_000.0+"s");
-        //System.out.println(ColoredText.CYAN + "[FitnessCalculator] Time to compute score: "+(time_d - time_c) / 1_000_000_000.0+"s");
-        //System.out.println(ColoredText.CYAN + "[FitnessCalculator] Time to save fitness data: "+(time_e - time_d) / 1_000_000_000.0+"s");
-
         return fitnessScore;
     }
 
